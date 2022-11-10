@@ -1,0 +1,17 @@
+.entry__page{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.entry___page-form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: aliceblue;
+    width: 400px;
+    border-radius: 15px;
+    padding: 10px;
+    box-shadow: 0px 0px 15px -5px black;
+} 

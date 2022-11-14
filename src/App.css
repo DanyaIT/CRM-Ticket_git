@@ -23,3 +23,13 @@ footer{
     color: white;
 
 }
+
+.add__tickets{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+    min-width: 400px;
+    width: 100%;
+
+}

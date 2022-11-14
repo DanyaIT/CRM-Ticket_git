@@ -2,6 +2,7 @@ import React from "react";
 import { Table } from "react-bootstrap";
 
 const TableTicket = ({ dataTickets }) => {
+  if(dataTickets.length)
   return (
     <Table striped bordered hover className="text-center">
       <thead>
@@ -17,7 +18,7 @@ const TableTicket = ({ dataTickets }) => {
         dataTickets.map((row) => (
           <tr key={row.id}>
             <td>{row.id}</td>
-            <td>{row.subject}</td>
+            <td>{row.topic}</td>
             <td>{row.status}</td>
             <td>{row.addedDat}</td>
           </tr>

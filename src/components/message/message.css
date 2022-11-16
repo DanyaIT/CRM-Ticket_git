@@ -1,0 +1,25 @@
+
+.message__history{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.message__history:nth-child(even){
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+}
+
+.message{
+    border: 1px solid black;
+    padding: 1rem;
+    width: 80%;
+    border-radius: 15px;
+    height: 100px;
+    margin-bottom: 30px;
+}
+
+.date__message, .sender{
+    font-weight: 700;
+}

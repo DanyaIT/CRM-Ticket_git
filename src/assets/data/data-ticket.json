@@ -3,8 +3,23 @@
         "id":1,
         "topic":"add",
         "status":"panding",
-        "addedDat": "12.11.2022"
-    },
+        "addedDat": "12.11.2022",
+        "history":[{
+            "date": "15.11.22",
+            "message": "fdsfdsdfs",
+            "messageBy": "Клиент"
+        },
+        {
+            "date": "15.11.22",
+            "message": "adsijw342",
+            "messageBy": "Менеджер"
+        },
+        {
+            "date": "15.11.22",
+            "message": "sd324234",
+            "messageBy": "Клиент"
+        }
+    ]},
     {
         "id":2,
         "topic":"holl",

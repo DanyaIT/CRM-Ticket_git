@@ -24,8 +24,23 @@
         "id":2,
         "topic":"holl",
         "status":"panding",
-        "addedDat": "12.11.2022"
-    },
+        "addedDat": "17.11.2022",
+        "history":[{
+            "date": "17.11.22",
+            "message": "fdsfdsdfs",
+            "messageBy": "Клиент"
+        },
+        {
+            "date": "17.11.22",
+            "message": "adsijw342",
+            "messageBy": "Менеджер"
+        },
+        {
+            "date": "17.11.22",
+            "message": "sd324234",
+            "messageBy": "Клиент"
+        }
+    ]},
     {
         "id":3,
         "topic":"map",

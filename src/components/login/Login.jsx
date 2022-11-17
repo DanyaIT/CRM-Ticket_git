@@ -43,7 +43,7 @@ const Login = ({handleSubmit,handleOnchange, email, password, formSwitcher}) => 
         <a 
         onClick={()=> formSwitcher('reset')}
         className = 'pb-3' 
-        href="!#">Забыли пароль?</a>
+        href="/">Забыли пароль?</a>
       </Row>
     </Container>
   );

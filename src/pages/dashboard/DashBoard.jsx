@@ -2,14 +2,17 @@ import React from 'react'
 import { Container, Button, Col, Row } from 'react-bootstrap'
 import TableTicket from '../../components/table-ticket/TableTicket'
 import dataTickets from '../../assets/data/data-ticket.json'
+import {Link} from 'react-router-dom'
 
 const DashBoard = () => {
   return (
     <Container>
         <Row className = "text-center">
             <Col className='mt-5 mb-2'>
-               <Button variant='info' style={{padding:'10px, 30px', fontSize: '2rem', color:'white', fontWeight:'500'}}>Добавить заявку</Button> 
-            </Col>
+                <Link to = '/add-ticket'>
+                    <Button variant='info' style={{padding:'10px, 30px', fontSize: '2rem', color:'white', fontWeight:'500'}}>Добавить заявку</Button> 
+                </Link>
+            </Col>    
         </Row>
         <Row className = "text-center">
             <Col className='mt-5 mb-2'>

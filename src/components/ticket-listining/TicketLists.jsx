@@ -6,28 +6,19 @@ import SearchTicket from "../search-form/SearchTicket";
 import TableTicket from "../table-ticket/TableTicket";
 import dataTable from "../../assets/data/data-ticket.json";
 import {Link} from 'react-router-dom'
+import { useDispatch } from "react-redux";
+import {fetchAllticket} from './ticketAction'
 
 
 const TicketLists = () => {
+  const dispatch = useDispatch()
   const [searchStr, setSearchStr] = useState("");
   const [sortTickets, setSortTicket] = useState(dataTable);
 
-  useEffect(() => {}, [searchStr, sortTickets]);
+  useEffect(() => {
+    dispatch(fetchAllticket())
+  }, [searchStr, sortTickets]);
 
-  const handleOnChange = (e) => {
-    e.preventDefault();
-    const { value } = e.target;
-    setSearchStr(value);
-    sortTicket(value);
-  };
-
-  const sortTicket = (str) => {
-    let sortedTickets = dataTable.filter((row) =>
-      row.topic.toLowerCase().includes(str.toLowerCase())
-    );
-    setSortTicket(sortedTickets);
-    console.log("1");
-  };
 
   return (
     <Container className="mt-5">
@@ -38,7 +29,7 @@ const TicketLists = () => {
         </Link>
         </Col>
         <Col>
-          <SearchTicket searchStr={searchStr} handleOnChange={handleOnChange} />
+          <SearchTicket/>
         </Col>
       </Row>
       <hr />

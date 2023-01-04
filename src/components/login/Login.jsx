@@ -1,13 +1,58 @@
 import React, {useState} from "react";
-import { Form, Row, Col, Container, Button } from "react-bootstrap";
+import { Form, Row, Col, Container, Button, Spinner, Alert} from "react-bootstrap";
+import {
+  loginLoading, 
+  loginAccess,
+  loginError} from './loginSlice'
+import { useDispatch, useSelector } from "react-redux";  
+import { userLogin } from "../../api/userApi";
+import {useNavigate} from 'react-router-dom'
 
-const Login = ({handleSubmit,handleOnchange, email, password, formSwitcher}) => {
+const Login = ({formSwitcher}) => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const {isAuth, isLoading, error} = useSelector(state => state.login)
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!email || !password) {
+      alert("Заполните форму!");
+    }
+    dispatch(loginLoading())
+    try {
+      const isAuth = await userLogin({email, password})
+      if(isAuth.status === 'error'){
+        return dispatch(loginError(isAuth.message))
+      }
+      dispatch(loginAccess())
+      navigate('/dashboard')
+    } catch (error) {
+      dispatch(loginError(error))
+    }
+  
+  };
+
+  const handleOnchange = (e) => {
+    const { name, value } = e.target;
+    switch (name) {
+      case "email":
+        setEmail(value);
+        break;
+      case "password":
+        setPassword(value);
+      default:
+        break;
+    }
+  };
   return (
     <Container className="d-flex, w-100">
       <Row>
         <Col>
           <h2 className="text-center">Авторизация</h2>
           <hr/>
+          {error && <Alert variant="danger">{error}</Alert>}
           <Form>
             <Form.Group style={{marginTop:'5px'}}>
               <Form.Label>Адрес электронной почты</Form.Label>
@@ -35,6 +80,7 @@ const Login = ({handleSubmit,handleOnchange, email, password, formSwitcher}) => 
             onClick={handleSubmit} 
             type="submit" 
             style={{marginTop:'15px'}}>Войти</Button>
+            {isLoading && <Spinner variant="primary" animation="border"/>}
           </Form>
           <hr/>
         </Col>
@@ -43,7 +89,7 @@ const Login = ({handleSubmit,handleOnchange, email, password, formSwitcher}) => 
         <a 
         onClick={()=> formSwitcher('reset')}
         className = 'pb-3' 
-        href="/">Забыли пароль?</a>
+        href="#">Забыли пароль?</a>
       </Row>
     </Container>
   );

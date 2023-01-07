@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import Login from "../components/login/Login";
-import DefaultLayout from "../layout/DefaultLayout";
-import DashBoard from "../pages/dashboard/DashBoard";
 import { privateRoutes, publickRoutes } from "../roustes";
+import { useSelector } from "react-redux";
+import {loginAccess} from '../components/login/loginSlice'
+import { useDispatch } from "react-redux";
+import {fetchNewTokenAccess} from '../api/userApi'
 
 const AppRouter = () => {
-  const isAuth = true;
+  const dispatch = useDispatch()
+  const {isAuth} = useSelector(state => state.login)
+  useEffect(()=>{
+  const updateAccessToken = async() => {
+    const result = await fetchNewTokenAccess()
+    result && dispatch(loginAccess())
+  }
+  updateAccessToken();
+  sessionStorage.getItem('createJWT') && dispatch(loginAccess()) 
+  },[dispatch])
+
   return (
       <Routes>
         {isAuth &&

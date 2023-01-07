@@ -3,11 +3,20 @@ import { Container, Nav, Navbar } from 'react-bootstrap'
 import NavbarCollapse from 'react-bootstrap/esm/NavbarCollapse'
 import NavbarToggle from 'react-bootstrap/esm/NavbarToggle'
 import logo from'../../assets/image/logo.png'
-import {Link} from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import {LinkContainer} from 'react-router-bootstrap'
+import { userLogout } from '../../api/userApi'
+
 
 
 const Header = () => {
+    const {isAuth} = useSelector(state => state.login)
+    const logoutUser = () => {
+        userLogout()
+        sessionStorage.removeItem('createJWT')
+        localStorage.removeItem('crmSite')
+    }
+
   return (
     <Navbar collapseOnSelect bg = 'secondary' variant='dark' expand = 'md' className='p-2'>
         <Navbar.Brand>
@@ -23,7 +32,9 @@ const Header = () => {
                         <Nav.Link>Tickets</Nav.Link>
                     </LinkContainer>
                     <LinkContainer to='/'>
-                        <Nav.Link>Logout</Nav.Link>
+                        <Nav.Link
+                        onClick={logoutUser}
+                        >Logout</Nav.Link>
                     </LinkContainer>
                 </Nav>
             </NavbarCollapse>

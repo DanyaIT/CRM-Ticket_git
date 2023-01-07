@@ -1,37 +1,53 @@
-import React, {useState} from "react";
-import { Form, Row, Col, Container, Button, Spinner, Alert} from "react-bootstrap";
+import React, { useState, useEffect } from "react";
 import {
-  loginLoading, 
-  loginAccess,
-  loginError} from './loginSlice'
-import { useDispatch, useSelector } from "react-redux";  
+  Form,
+  Row,
+  Col,
+  Container,
+  Button,
+  Spinner,
+  Alert,
+} from "react-bootstrap";
+import { loginLoading, loginAccess, loginError } from "./loginSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../../api/userApi";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
+import { getLoadingUser } from "../../pages/dashboard/userSlice";
+import { getUserProfile } from "../../pages/dashboard/userAction";
 
-const Login = ({formSwitcher}) => {
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const {isAuth, isLoading, error} = useSelector(state => state.login)
+const Login = ({ formSwitcher }) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState("e@e4.com");
+  const [password, setPassword] = useState("secret123");
+  const { isAuth, isLoading, error } = useSelector((state) => state.login);
+
+  useEffect(() => {
+    if (sessionStorage.getItem("createJWT")) {
+      navigate("/dashboard");
+    } 
+    else {
+      dispatch(loginError());
+    }
+  }, [navigate, isAuth]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password) {
       alert("Заполните форму!");
     }
-    dispatch(loginLoading())
+    dispatch(loginLoading());
     try {
-      const isAuth = await userLogin({email, password})
-      if(isAuth.status === 'error'){
-        return dispatch(loginError(isAuth.message))
+      const isAuth = await userLogin({ email, password });
+      if (isAuth.status === "error") {
+        return dispatch(loginError(isAuth.message));
       }
-      dispatch(loginAccess())
-      navigate('/dashboard')
+      dispatch(loginAccess());
+      dispatch(getUserProfile());
+      navigate("/dashboard");
     } catch (error) {
-      dispatch(loginError(error))
+      dispatch(loginError(error));
     }
-  
   };
 
   const handleOnchange = (e) => {
@@ -51,45 +67,48 @@ const Login = ({formSwitcher}) => {
       <Row>
         <Col>
           <h2 className="text-center">Авторизация</h2>
-          <hr/>
+          <hr />
           {error && <Alert variant="danger">{error}</Alert>}
           <Form>
-            <Form.Group style={{marginTop:'5px'}}>
+            <Form.Group style={{ marginTop: "5px" }}>
               <Form.Label>Адрес электронной почты</Form.Label>
               <Form.Control
                 onChange={handleOnchange}
-                value = {email}
+                value={email}
                 type="email"
                 name="email"
                 placeholder="Укажите почту"
                 required
               />
             </Form.Group>
-            <Form.Group style={{marginTop:'10px'}}>
+            <Form.Group style={{ marginTop: "10px" }}>
               <Form.Label>Пароль</Form.Label>
-                <Form.Control
-                  onChange = {handleOnchange}
-                  value={password}
-                  type="password"
-                  name="password"
-                  placeholder="Укажите пароль"
-                  required
-                />
+              <Form.Control
+                onChange={handleOnchange}
+                value={password}
+                autoComplete = 'on'
+                type="password"
+                name="password"
+                placeholder="Укажите пароль"
+                required
+              />
             </Form.Group>
             <Button
-            onClick={handleSubmit} 
-            type="submit" 
-            style={{marginTop:'15px'}}>Войти</Button>
-            {isLoading && <Spinner variant="primary" animation="border"/>}
+              onClick={handleSubmit}
+              type="submit"
+              style={{ marginTop: "15px" }}
+            >
+              Войти
+            </Button>
+            {isLoading && <Spinner variant="primary" animation="border" />}
           </Form>
-          <hr/>
+          <hr />
         </Col>
       </Row>
       <Row>
-        <a 
-        onClick={()=> formSwitcher('reset')}
-        className = 'pb-3' 
-        href="#">Забыли пароль?</a>
+        <a onClick={() => formSwitcher("reset")} className="pb-3" href="#">
+          Забыли пароль?
+        </a>
       </Row>
     </Container>
   );

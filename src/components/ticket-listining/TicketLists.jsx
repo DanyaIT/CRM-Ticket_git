@@ -35,7 +35,7 @@ const TicketLists = () => {
       <hr />
       <Row className="mt-5">
         <Col>
-          <TableTicket dataTickets={sortTickets} />
+          <TableTicket />
         </Col>
       </Row>
     </Container>

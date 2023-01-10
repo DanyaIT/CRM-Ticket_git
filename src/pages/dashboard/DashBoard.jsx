@@ -1,11 +1,24 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { Container, Button, Col, Row } from 'react-bootstrap'
 import TableTicket from '../../components/table-ticket/TableTicket'
-import dataTickets from '../../assets/data/data-ticket.json'
+import {useSelector, useDispatch} from "react-redux";
 import {Link} from 'react-router-dom'
 
+import {fetchAllticket} from '../../components/ticket-listining/ticketAction'
+
 const DashBoard = () => {
-  return (
+    const dispatch = useDispatch()
+    const {tickets} = useSelector(state => state.ticket)
+
+    useEffect(() => {
+        if(tickets.length === 0){
+            dispatch(fetchAllticket())
+        }
+    }, [dispatch,tickets])
+
+    const pendingTickets = tickets.filter(item => item.status !== 'Закрыт')
+  
+    return (
     <Container>
         <Row className = "text-center">
             <Col className='mt-5 mb-2'>
@@ -16,8 +29,8 @@ const DashBoard = () => {
         </Row>
         <Row className = "text-center">
             <Col className='mt-5 mb-2'>
-               <div>Общие количество заявок: 500</div>
-               <div>Заявок в ожидании: 5</div>
+               <div>Общие количество заявок: {tickets.length}</div>
+               <div>Заявок в ожидании: {pendingTickets.length}</div>
             </Col>
         </Row>
         <Row>
@@ -26,7 +39,7 @@ const DashBoard = () => {
         <hr/>
         <Row>
             <Col>
-            <TableTicket dataTickets = {dataTickets}/>
+            <TableTicket/>
             </Col>
         </Row>
     </Container>

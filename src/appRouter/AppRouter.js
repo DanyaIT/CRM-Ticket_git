@@ -5,18 +5,21 @@ import { useSelector } from "react-redux";
 import {loginAccess} from '../components/login/loginSlice'
 import { useDispatch } from "react-redux";
 import {fetchNewTokenAccess} from '../api/userApi'
+import { getUserProfile } from "../pages/dashboard/userAction";
 
 const AppRouter = () => {
   const dispatch = useDispatch()
   const {isAuth} = useSelector(state => state.login)
-  useEffect(()=>{
+  const {user} = useSelector(state => state.user)
+   useEffect(()=>{
   const updateAccessToken = async() => {
     const result = await fetchNewTokenAccess()
     result && dispatch(loginAccess())
   }
-  updateAccessToken();
-  sessionStorage.getItem('createJWT') && dispatch(loginAccess()) 
-  },[dispatch])
+  !user._id && dispatch(getUserProfile())
+  !sessionStorage.getItem('createJWT') && localStorage.getItem('crmSite') && updateAccessToken()
+  !isAuth && sessionStorage.getItem('createJWT') && dispatch(loginAccess()) 
+  },[dispatch, isAuth])
 
   return (
       <Routes>

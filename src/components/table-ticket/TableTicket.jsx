@@ -2,7 +2,7 @@ import React from "react";
 import { Table } from "react-bootstrap";
 import {Link} from 'react-router-dom'
 import {LinkContainer} from 'react-router-bootstrap'
-import { useSelector } from "react-redux";
+import {useSelector} from "react-redux";
 
 const TableTicket = () => {
   const {tickets, isLoading, error, searchTicketsList} = useSelector(state => state.ticket)
@@ -28,7 +28,7 @@ const TableTicket = () => {
             <td>{row._id}</td>
             <td>{row.subject}</td>
             <td>{row.status}</td>
-            <td>{row.openAt}</td>
+            <td>{row.openAt && new Date(row.openAt).toLocaleString('ru-GB')}</td>
           </tr>
           </LinkContainer>
         ))

@@ -77,7 +77,7 @@ export const createNewTicketInBD = (formData) => {
       })
       resolve(result.data)
     } catch (error) {
-      reject(error)
+      reject(error.message)
     }
   })
 }

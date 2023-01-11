@@ -15,11 +15,11 @@ const SearchTicket = () => {
     <div>
         <Form>
             <Form.Group as = {Row}>
-                <Form.Label column sm = '2'>Search:{''}</Form.Label>
+                <Form.Label column sm = '2'>Поиск:{''}</Form.Label>
                 <Col sm = '10'>
                     <Form.Control
                     onChange = {handleOnChange}
-                    placeholder = "Search..."
+                    placeholder = "Укажите тему заявки..."
                     />
                 </Col>
             </Form.Group>

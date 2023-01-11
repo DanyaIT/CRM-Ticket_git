@@ -12,7 +12,6 @@ import { loginLoading, loginAccess, loginError } from "./loginSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../../api/userApi";
 import { useNavigate } from "react-router-dom";
-import { getLoadingUser } from "../../pages/dashboard/userSlice";
 import { getUserProfile } from "../../pages/dashboard/userAction";
 
 const Login = ({ formSwitcher }) => {
@@ -29,7 +28,7 @@ const Login = ({ formSwitcher }) => {
     else {
       dispatch(loginError());
     }
-  }, [navigate, isAuth]);
+  }, [navigate, isAuth, dispatch]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,8 +57,8 @@ const Login = ({ formSwitcher }) => {
         break;
       case "password":
         setPassword(value);
-      default:
         break;
+      default: alert('Заполните поля!')
     }
   };
   return (
@@ -105,10 +104,13 @@ const Login = ({ formSwitcher }) => {
           <hr />
         </Col>
       </Row>
-      <Row>
-        <a onClick={() => formSwitcher("reset")} className="pb-3" href="#">
-          Забыли пароль?
-        </a>
+      <Row className="pb-2">
+        <Col sm = {5}>
+          <div style={{cursor:'pointer', color:'blue'}} onClick={() => formSwitcher("reset")}> Забыли пароль?</div>
+        </Col>
+        <Col>
+          <div style={{cursor:'pointer', color:'blue'}} onClick = {()=> navigate("/registration")}>Вы зашли в первый раз?</div>
+        </Col>
       </Row>
     </Container>
   );

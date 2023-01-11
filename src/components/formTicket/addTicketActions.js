@@ -9,8 +9,9 @@ export const addNewTicket = (formData) => async(dispatch) => {
     dispatch(createTicketIsLoading())
     try {
         const result = await createNewTicketInBD(formData)
+        console.log(result.status)
         if(result.status === 'error'){
-            dispatch(createTicketError(result.message))
+            return dispatch(createTicketError(result.message))
         }
         dispatch(createTicketSuccess(result.message))
     } catch (error) {

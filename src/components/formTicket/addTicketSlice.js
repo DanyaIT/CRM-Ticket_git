@@ -20,8 +20,14 @@ const newTicketSlice = createSlice({
         },
         createTicketError: (state, {payload}) => {
             state.isLoading = false
-            state.error = {payload}
+            state.error = payload
+        },
+        restTicketSuccessMessageOrError: (state) => {
+            state.isLoading = false
+            state.successMessage = ''
+            state.error = ''
         }
+
     }
 })
 
@@ -29,7 +35,8 @@ const {reducer, actions} = newTicketSlice
 export const {
     createTicketIsLoading,
     createTicketSuccess,
-    createTicketError
+    createTicketError,
+    restTicketSuccessMessageOrError
 } = actions
 
 export default reducer

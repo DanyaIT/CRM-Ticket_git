@@ -5,19 +5,6 @@ const userProfileUrl = rootUrl + '/user'
 const logoutUrl = rootUrl + '/user/logout'
 const newAccessTokentUrl = rootUrl + '/tokens'
 
-export const createNewUser = formData => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const result = await axios.post(userProfileUrl, formData)
-            resolve(result.data)
-        } catch (error) {
-            console.log(error)
-            reject(error)
-        }
-    })
-}
-
-
 export const userLogin =  formData => {
     return new Promise (async (resolve, reject) =>{
         try {

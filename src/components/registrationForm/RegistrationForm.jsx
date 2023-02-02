@@ -1,44 +1,30 @@
 import { useNavigate } from "react-router-dom";
-import React, { useEffect, useState } from "react";
-import {
-  Container,
-  Form,
-  Row,
-  Col,
-  Button,
-  Spinner,
-  Alert,
-} from "react-bootstrap";
-import { newUserRegistration } from "./userRegistretionActions";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
+import { Container, Form, Row, Col, Button } from "react-bootstrap";
 
 const RegistrationForm = () => {
   const initialState = {
-    name: "Danya",
-    company: "MADI",
-    phone: "79660184218",
-    address: 'Кочновский проезд, 7к1',
-    email: "Tanilka52753@mail.ru",
-    password: "Tanilka52753@mail.ru",
-    confirmPassword: "Tanilka52753@mail.ru",
+    name: "",
+    company: "",
+    number: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   };
 
   const passwordErrors = {
     isLenthy: false,
     hasUpperChar: false,
     hasLowerChar: false,
-    hasphone: false,
+    hasNumber: false,
     hasSpecChar: false,
     confirmPassword: false,
   };
-
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [newUser, setNewUser] = useState(initialState);
   const [passwordFail, setPasswordFail] = useState(passwordErrors);
-  const { isLoading, status, message } = useSelector(
-    state => state.userRegistration
-  );
 
   useEffect(() => {}, [newUser]);
 
@@ -50,46 +36,29 @@ const RegistrationForm = () => {
       const isLenthy = value.length >= 8;
       const hasUpperChar = /[A-Z]/.test(value);
       const hasLowerChar = /[a-z]/.test(value);
-      const hasphone = /[0-9]/.test(value);
+      const hasNumber = /[0-9]/.test(value);
       const hasSpecChar = /[@,#,$,%,*]/.test(value);
       setPasswordFail({
         ...passwordFail,
         isLenthy,
         hasUpperChar,
         hasLowerChar,
-        hasphone,
+        hasNumber,
         hasSpecChar,
       });
     }
 
-    if (name === "confirmPassword") {
-      setPasswordFail({
-        ...passwordFail,
-        confirmPassword: newUser.password === value,
-      });
+    if(name === 'confirmPassword'){
+      setPasswordFail({...passwordFail, 
+        confirmPassword: newUser.password === value 
+      })
     }
   };
 
   const handleFormSubmit = (e) => {
-    e.preventDefault();
-    const {
-      name,
-      company,
-      phone,
-      address,
-      email,
-      password,
-    } = newUser
-    const registrationData = {
-      name,
-      company,
-      phone,
-      address,
-      email,
-      password,
-    }
-    dispatch(newUserRegistration(registrationData));
-  };
+    e.preventDefault()
+    console.log(newUser)
+  } 
 
   return (
     <Container className="p-3">
@@ -99,15 +68,6 @@ const RegistrationForm = () => {
         </Col>
       </Row>
       <hr />
-      <Row>
-        <Col>
-          {message && (
-            <Alert variant={status === "success" ? "success" : "danger"}>
-              {message}
-            </Alert>
-          )}
-        </Col>
-      </Row>
       <Row>
         <Col>
           <Form onSubmit={handleFormSubmit}>
@@ -131,24 +91,14 @@ const RegistrationForm = () => {
                 type="text"
                 placeholder="Укажите название компании"
               />
-              </Form.Group>
-              <Form.Group className="mb-3">
-              <Form.Label>Адрес</Form.Label>
-              <Form.Control
-                onChange={handleForm}
-                name="address"
-                value={newUser.address}
-                type="text"
-                placeholder="Укажите адрес"
-              />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Телефон</Form.Label>
               <Form.Control
                 onChange={handleForm}
-                name="phone"
-                value={newUser.phone}
-                type="phone"
+                name="number"
+                value={newUser.number}
+                type="number"
                 placeholder="Укажите рабочий номер"
               />
             </Form.Group>
@@ -170,6 +120,7 @@ const RegistrationForm = () => {
                 name="password"
                 type="password"
                 placeholder="Укажите пароль"
+
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -182,9 +133,7 @@ const RegistrationForm = () => {
                 placeholder="Повторите пароль"
               />
               <Form.Text>
-                {!passwordFail.confirmPassword && (
-                  <div className="text-danger">Пароли не совпадают</div>
-                )}
+                {!passwordFail.confirmPassword && (<div className="text-danger">Пароли не совпадают</div>)}
               </Form.Text>
             </Form.Group>
             <ul>
@@ -211,7 +160,7 @@ const RegistrationForm = () => {
               </li>
               <li
                 className={
-                  passwordFail.hasphone ? "text-success" : "text-danger"
+                  passwordFail.hasNumber ? "text-success" : "text-danger"
                 }
               >
                 По крайней мере одна цифра
@@ -232,17 +181,14 @@ const RegistrationForm = () => {
               </Col>
               <Col sm={7}>
                 <Button
-                  className="mt-2 p-2 w-100"
-                  variant="primary"
-                  type="submit"
-                  disabled={Object.values(passwordFail).includes(false)}
+                className="mt-2 p-2 w-100"
+                variant="primary"
+                type="submit"
+                disabled={Object.values(passwordFail).includes(false)}
                 >
                   Зарегистрироваться
                 </Button>
               </Col>
-            </Row>
-            <Row>
-              {isLoading && <Spinner variant="primary" animation="border" />}
             </Row>
           </Form>
         </Col>

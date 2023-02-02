@@ -26,15 +26,15 @@ const Header = () => {
             <NavbarCollapse id = 'basic-navbar-nav'>
                 <Nav style={{marginLeft:'auto',}}>
                     <LinkContainer to='/dashboard'>
-                        <Nav.Link>Главная</Nav.Link>
+                        <Nav.Link>Dashboard</Nav.Link>
                     </LinkContainer>
                     <LinkContainer to='/tickets'>
-                        <Nav.Link>Заявки</Nav.Link>
+                        <Nav.Link>Tickets</Nav.Link>
                     </LinkContainer>
                     <LinkContainer to='/'>
                         <Nav.Link
                         onClick={logoutUser}
-                        >Выйти</Nav.Link>
+                        >Logout</Nav.Link>
                     </LinkContainer>
                 </Nav>
             </NavbarCollapse>

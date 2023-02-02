@@ -3,7 +3,6 @@ import DashBoard from "./pages/dashboard/DashBoard";
 import Entry from "./pages/entry/Entry.page";
 import AddTicket from "./pages/new-ticket/AddTicket";
 import Ticket from "./pages/tickets/Ticket";
-import Registration from "./pages/registration/Registration";
 
 
 export const privateRoutes = [
@@ -29,10 +28,5 @@ export const publickRoutes = [
     {
         path:'/',
         element: <Entry/>
-    },
-
-    {
-        path:'/registration',
-        element: <Registration/>
     },
 ]

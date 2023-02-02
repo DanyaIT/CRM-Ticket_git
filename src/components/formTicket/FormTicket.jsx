@@ -1,80 +1,25 @@
-import React, {useState, useEffect} from "react";
-import { Row, Container, Col, Form,Button, Spinner, Alert} from "react-bootstrap";
+import React from "react";
+import { Row, Container, Col, Form,Button} from "react-bootstrap";
 import './formTicket.css'
-import { shortText } from "../../utils/validation";
-import {useDispatch, useSelector} from 'react-redux'
-import { addNewTicket } from "./addTicketActions";
-import { restTicketSuccessMessageOrError } from "./addTicketSlice";
 
-const FormTicket = () => {
-
-  const formType = {
-    subject:'',
-    date: '',
-    message:''
-  }
-  
-  const formTypeEr = {
-    subject: false,
-    date: false,
-    message:false
-  }
-  
-  const [formInfo, setFormInfo] = useState(formType)
-  const [formInfoEr, setFormInfoEr] = useState(formTypeEr)
-  const {user:{name}} = useSelector(state => state.user)
-  const {isLoading, error, successMessage} = useSelector(state => state.newTicket)
-
-  const dispatch = useDispatch()
-
-  const handleOnChange = (e)=>{
-      e.preventDefault()
-      const {name, value} = e.target
-      setFormInfo({
-        ...formInfo,
-        [name]:value
-  
-      })
-  
-    }
-
-  const handleOnSubmit = async (e)=>{
-  e.preventDefault()
-    const validsubject =  await shortText(formInfo.subject)
-
-  
-   setFormInfoEr({
-      ...formTypeEr,
-      subject: !validsubject
-    })
-    dispatch(addNewTicket({...formInfo, sender: name}))
-  }
-  
-  useEffect(()=>{
-    (successMessage || error) && dispatch(restTicketSuccessMessageOrError())
-  },[formInfo,formInfoEr, dispatch])
-  
+const FormTicket = ({handleOnSubmit,handleOnChange, formInfo,formInfoEr}) => {
   return (
     <Container className="form__ticket">
           <Form className ='form__ticket-items'>
-          <h1 className="text-center mb-4 text-secondary">Добавить заявку</h1>
-          <hr/>
-            {isLoading && <Spinner animation="border" variant="primary"/>}
-            {error && <Alert variant="danger">{error}</Alert>}
-            {successMessage && <Alert variant="success">{successMessage}</Alert>}
+          <h1 className="text-center mb-4 text-secondary">Добавить вопрос</h1>
             <Form.Group as = {Row}>
               <Form.Label column sm = {1}>Тема</Form.Label>
               <Col sm = {11}>
                  <Form.Control 
                  onChange={handleOnChange}
                  type="text" 
-                 name="subject"
-                 value={formInfo.subject}
+                 name="topic"
+                 value={formInfo.topic}
                  placeholder="Тематика вопроса"
                  required
                  />
                 <Form.Text className="text-danger">
-                  {formInfoEr.subject && 'Недопустимое значение'}
+                  {formInfoEr.topic && 'Недопустимое значение'}
                 </Form.Text>
               </Col>
             </Form.Group>
@@ -94,10 +39,10 @@ const FormTicket = () => {
               <Form.Label>Описание</Form.Label>
               <Form.Control
               onChange={handleOnChange}
-              value = {formInfo.message}
+              value = {formInfo.description}
               placeholder="Опишите вопрос"
               rows='5'
-              name="message"
+              name="description"
               as="textarea" 
               required
               />

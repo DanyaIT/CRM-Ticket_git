@@ -1,59 +1,54 @@
-import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Button, Spinner, Alert } from "react-bootstrap";
-import Message from "../../components/message/Message";
-import MessageReply from "../../components/message/MessageRaply";
-import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { fetchSingleTicket, closeTicket, } from "../../components/ticket-listining/ticketAction";
-import { resetReplyMessageAndError } from "../../components/ticket-listining/ticketSlice";
+import React, { useEffect, useState } from 'react'
+import { Container,Row,Col, Button } from 'react-bootstrap'
+import dateTicket from '../../assets/data/data-ticket.json'
+import Message from '../../components/message/Message'
+import MessageReply from '../../components/message/MessageRaply'
+import { useParams } from 'react-router-dom'
 
 const Ticket = () => {
-  const dispatch = useDispatch();
-  const { tid } = useParams();
-  const { isLoading, selectedTicket, error, replyTicketFail, replyMessage} = useSelector(
-    (state) => state.ticket
-  )
-  useEffect(() => {
-    dispatch(fetchSingleTicket(tid));
-    (replyMessage || replyTicketFail) && dispatch(resetReplyMessageAndError())
-  }, [tid, dispatch]);
+    const {tid} = useParams();
+    const [replymessage, setReplyMessage] = useState('')
+    const [oneTicket, setOneTicket] = useState('')
+
+
+const handleOnChange = (e)=>{
+    const {value} = e.target
+    setReplyMessage(value) 
+} 
+
+useEffect(()=>{
+    for(let i= 0; i<dateTicket.length; i++){
+        if(dateTicket[i].id == tid){
+            setOneTicket(dateTicket[i])
+            continue;
+        }
+    }
+},[replymessage, tid])
 
   return (
     <Container>
-      <Row className="mt-3">
-        <Row>
-          {isLoading && <Spinner variant="primary" animation="border" />}
-          {error && <Alert variant="danger">{error}</Alert>}
-          {replyTicketFail && <Alert variant="danger">{replyTicketFail}</Alert>}
-          {replyMessage && <Alert variant="success">{replyMessage}</Alert>}
+        <Row className='mt-3'>
+            <Col>
+                <div className='topic'>Тема: {oneTicket.topic}</div>
+                <div className='date'>Дата прочтения: {oneTicket.addedDat}</div>
+                <div className='status'>Cтатус: {oneTicket.status}</div>
+            </Col>
+            <Col className='text-end mt-3'>
+                <Button variant = 'info'>Закрыть заявку</Button>
+            </Col>
         </Row>
-        <Col>
-          <div className="topic">Тема: {selectedTicket.subject}</div>
-          <div className="date">Дата прочтения: {selectedTicket.openAt && new Date(selectedTicket.openAt).toLocaleString('ru-GB')}</div>
-          <div className="status">Cтатус: {selectedTicket.status}</div>
-        </Col>
-        <Col className="text-end mt-3">
-          <Button variant="info"
-          onClick={() => dispatch(closeTicket(tid))}
-          disabled = {selectedTicket.status === 'Закрыт'}
-          >
-          Закрыть заявку
-          </Button>
-        </Col>
-      </Row>
-      <Row className="mt-4">
-        <Col>
-          <Message message={selectedTicket.conversations} />
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <MessageReply ticketId={tid} />
-        </Col>
-      </Row>
+        <Row className='mt-4'>
+            <Col>
+                <Message message={oneTicket.history}/>
+            </Col>
+        </Row>
+        <Row>
+            <Col>
+                <MessageReply replymessage = {replymessage} handleOnChange={handleOnChange}/>
+            </Col>
+        </Row>
     </Container>
-  );
-};
+  )
+}
 
-export default Ticket;
+export default Ticket

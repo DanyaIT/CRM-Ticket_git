@@ -25,7 +25,7 @@ const TicketLists = () => {
       <Row>
         <Col>
         <Link to = '/add-ticket'>
-          <Button variant="info">Добавить новую заявку</Button>
+          <Button variant="info" style={{color:'white'}}>Добавить новую заявку</Button>
         </Link>
         </Col>
         <Col>

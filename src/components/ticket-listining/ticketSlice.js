@@ -4,10 +4,7 @@ const initialState = {
     tickets: [],
     isLoading: false,
     error: '',
-    replyTicketFail: '',
     searchTicketsList: [],
-    selectedTicket: {},
-    replyMessage: ''
 }
 
 const ticketListSlice = createSlice({
@@ -26,52 +23,12 @@ const ticketListSlice = createSlice({
             state.isLoading = false
             state.error = payload
         },
-
         searchTickets:(state, {payload}) => {
             state.searchTicketsList = state.tickets.filter(row => {
                 if(!payload) return row
                 return row.subject.toLowerCase().includes(payload.toLowerCase())
             })
-        },
-
-        fetchSingleTicketIsLoading:(state) => {
-            state.isLoading = true
-        },
-        fetchSingleTicketAccess:(state, {payload}) => {
-            state.isLoading = false
-            state.selectedTicket = payload
-            state.error = ''
-        },
-        fetchSingleTicketError: (state, {payload}) => {
-            state.isLoading = false
-            state.error = payload
-        },
-
-        replyTicketIsLoading:(state) => {
-            state.isLoading = true
-        },
-        replyTicketAccess: (state, {payload}) => {
-            state.isLoading = false
-            state.error = ''
-            state.replyMessage = payload
-        },
-        replyTicketError: (state, {payload}) => {
-            state.isLoading = false
-            state.replyTicketFail = payload
-        },
-
-        closeTicketIsLoading: (state) => {
-            state.isLoading = true
-        },
-        closeTicketAccess: (state, {payload}) => {
-            state.isLoading = false
-            state.error = ''
-            state.replyMessage = payload
-        },
-        closeTicketError: (state, {payload}) => {
-            state.isLoading = false
-            state.error = payload
-        },
+        }
     }
 })
 
@@ -80,16 +37,7 @@ export const {
     fetchTicketIsLoading,
     fetchTicketAccess,
     fetchTicketError,
-    searchTickets,
-    fetchSingleTicketIsLoading,
-    fetchSingleTicketAccess,
-    fetchSingleTicketError,
-    replyTicketIsLoading,
-    replyTicketAccess,
-    replyTicketError,
-    closeTicketIsLoading,
-    closeTicketAccess,
-    closeTicketError
+    searchTickets
 } = actions
 
 export default reducer

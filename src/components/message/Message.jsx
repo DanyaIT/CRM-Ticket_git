@@ -9,8 +9,8 @@ const Message = ({message}) => {
         {message?.map((row,i)=>(
             <div key = {i} className='message__history'>
                 <div className='send__message'>
-                    <div className='sender'>{row.sender}</div>
-                    <div className='date__message'>{row.msgAt && new Date(row.msgAt).toLocaleString('ru-GB')}</div>
+                    <div className='sender'>{row.messageBy}</div>
+                    <div className='date__message'>{row.date}</div>
                 </div>
                 <div className='message'>{row.message}</div>
             </div>

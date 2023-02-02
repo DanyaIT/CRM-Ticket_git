@@ -1,30 +1,7 @@
-import React, {useState} from 'react'
-import { Form, Button, Alert } from 'react-bootstrap'
-import {useDispatch, useSelector} from 'react-redux'
-import {replyOnTicket} from '../ticket-listining/ticketAction'
+import React from 'react'
+import { Form, Button } from 'react-bootstrap'
 
-
-const MessageRaply = ({ticketId}) => {
-  const [message, setMessage] = useState('')
-  const {user:{name}} = useSelector(state => state.user)
-  const {replyMessage, selectedTicket} = useSelector(state => state.ticket)
-  const dispatch = useDispatch()
-  const handleOnChange = (e)=>{
-    const {value} = e.target
-    setMessage(value) 
-  }
-  
-  const handleOnSubmit = (e) => {
-    e.preventDefault()
-   const messageObj = {
-      sender: name,
-      message
-   }
-   dispatch(replyOnTicket(ticketId, messageObj))
-   setMessage('')
-  }
-
-
+const MessageRaply = ({handleOnChange,replymessage}) => {
   return (
     <Form>
         <Form.Text>Опишите свой ответ или обновите запрос</Form.Text>
@@ -32,16 +9,15 @@ const MessageRaply = ({ticketId}) => {
             <Form.Control
             onChange={handleOnChange}
             as = 'textarea'
-            value = {message}
+            value = {replymessage}
             rows={5}
             />
         </Form.Group>
         <div className='text-end mt-3 mb-3'>
             <Button 
-            onClick={handleOnSubmit}
+            block
             variant='info' 
             type='submit'
-            disabled = {selectedTicket.status === 'Закрыт'}
             >
             Ответить</Button>
         </div>

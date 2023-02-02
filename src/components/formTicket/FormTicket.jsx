@@ -4,7 +4,6 @@ import './formTicket.css'
 import { shortText } from "../../utils/validation";
 import {useDispatch, useSelector} from 'react-redux'
 import { addNewTicket } from "./addTicketActions";
-import { restTicketSuccessMessageOrError } from "./addTicketSlice";
 
 const FormTicket = () => {
 
@@ -41,7 +40,7 @@ const FormTicket = () => {
   const handleOnSubmit = async (e)=>{
   e.preventDefault()
     const validsubject =  await shortText(formInfo.subject)
-
+    console.log(formInfo)
   
    setFormInfoEr({
       ...formTypeEr,
@@ -51,17 +50,18 @@ const FormTicket = () => {
   }
   
   useEffect(()=>{
-    (successMessage || error) && dispatch(restTicketSuccessMessageOrError())
-  },[formInfo,formInfoEr, dispatch])
+  
+  },[formInfo,formInfoEr])
   
   return (
     <Container className="form__ticket">
           <Form className ='form__ticket-items'>
           <h1 className="text-center mb-4 text-secondary">Добавить заявку</h1>
           <hr/>
-            {isLoading && <Spinner animation="border" variant="primary"/>}
-            {error && <Alert variant="danger">{error}</Alert>}
-            {successMessage && <Alert variant="success">{successMessage}</Alert>}
+          {isLoading && <Spinner variant="primary" animation = 'border'/>}
+          {error && <Alert variant="danger">{error}</Alert>}
+          {successMessage === 'Вы успешно отправили письмо' && <Alert variant="success">{successMessage}</Alert>}
+          {successMessage === 'Укажите допустимые значения' && <Alert variant="danger">{successMessage}</Alert>}
             <Form.Group as = {Row}>
               <Form.Label column sm = {1}>Тема</Form.Label>
               <Col sm = {11}>

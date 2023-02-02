@@ -72,12 +72,6 @@ const ticketListSlice = createSlice({
             state.isLoading = false
             state.error = payload
         },
-
-        resetReplyMessageAndError: (state) => {
-            state.isLoading = false
-            state.replyMessage = ''
-            state.replyTicketFail = ''
-        }
     }
 })
 
@@ -95,8 +89,7 @@ export const {
     replyTicketError,
     closeTicketIsLoading,
     closeTicketAccess,
-    closeTicketError,
-    resetReplyMessageAndError
+    closeTicketError
 } = actions
 
 export default reducer

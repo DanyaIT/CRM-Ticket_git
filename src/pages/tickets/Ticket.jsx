@@ -5,8 +5,7 @@ import MessageReply from "../../components/message/MessageRaply";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { fetchSingleTicket, closeTicket, } from "../../components/ticket-listining/ticketAction";
-import { resetReplyMessageAndError } from "../../components/ticket-listining/ticketSlice";
+import { fetchSingleTicket, closeTicket } from "../../components/ticket-listining/ticketAction";
 
 const Ticket = () => {
   const dispatch = useDispatch();
@@ -16,7 +15,6 @@ const Ticket = () => {
   )
   useEffect(() => {
     dispatch(fetchSingleTicket(tid));
-    (replyMessage || replyTicketFail) && dispatch(resetReplyMessageAndError())
   }, [tid, dispatch]);
 
   return (
